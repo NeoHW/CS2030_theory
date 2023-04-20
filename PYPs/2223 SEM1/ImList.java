@@ -2,6 +2,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.Optional;
 
 /**
  * An immutable implementation of the {@code ArrayList} using an 
@@ -189,6 +192,24 @@ public class ImList<E> implements Iterable<E> {
         ImList<E> newList = new ImList<E>(this.elems);
         newList.elems.sort(cmp);
         return newList;
+    }
+
+    // reduce method that is given for q4
+    <U> U reduce(U identity, BiFunction<? super U, ? super E, ? extends U> acc) {
+        for (E t : this) {
+            identity = acc.apply(identity, t);
+        }
+        return identity;
+    }
+
+    Optional<E> reduce(BinaryOperator<E> accumulator) {
+        return this.isEmpty() 
+            ? Optional.<E>empty() // no elements
+            : (this.size() == 1 
+                ? Optional.<E>of(this.get(0)) // 1 element
+                : this.elems.stream() // Stream<E>
+                    .reduce(accumulator)) // Optional<E>
+        ;
     }
 
     /**
