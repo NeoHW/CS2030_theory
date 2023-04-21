@@ -17,7 +17,7 @@ class ImList<T> {
     ImList<T> add(T t) { // use constructor Imlist(supplier<List<T>>)
         return new ImList<T>(() -> { // this supplier should return a list
             System.out.println("Adding: " + t);
-            List<T> newList = new ArrayList<T>(list.get());
+            List<T> newList = new ArrayList<T>(list.get()); // why can use supplier.get() here?
             newList.add(t);
             return newList;
         });
