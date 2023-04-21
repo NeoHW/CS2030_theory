@@ -30,6 +30,11 @@ class IfElse<T,R> {
     IfElse<T,R> mapElse(IfElse<T,R> other) {
         return new IfElse<T,R>(x -> this.pred.test(x) || other.pred.test(x), mapper, mapper2);
     }
+
+    //d (i do not know how to do this)
+    IfElse<T,R> map(Function<? super T,? extends R> mapper) {
+        return new IfElse<T,R>(this.pred, x -> mapper.test(true), mapper.test(!(true)));
+    }
 }
 
 
