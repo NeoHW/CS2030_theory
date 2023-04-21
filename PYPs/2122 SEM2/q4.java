@@ -23,7 +23,12 @@ class IfElse<T,R> {
     
     //b
     IfElse<T,R> mapIf(IfElse<T,R> other) {
-        return new IfElse<T,R>( x -> this.pred.test(x) && other.pred.test(x), mapper, mapper2);
+        return new IfElse<T,R>(x -> this.pred.test(x) && other.pred.test(x), mapper, mapper2);
+    }
+
+    //c 
+    IfElse<T,R> mapElse(IfElse<T,R> other) {
+        return new IfElse<T,R>(x -> this.pred.test(x) || other.pred.test(x), mapper, mapper2);
     }
 }
 
