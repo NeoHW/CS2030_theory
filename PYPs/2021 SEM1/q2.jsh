@@ -2,7 +2,7 @@
 static void <T> replace(List<T> src, List<T> dst, BiPredicate<? super T, ? super U> pred) {
     if (src.size() == dst.size()) {
         for (int i = 0; i < src.size(); i++) {
-            if (pred.test(src.get(i), dst.get(i))) {
+            if (pred.apply(src.get(i), dst.get(i))) { // NOTE: bifunction uses .apply
                 dst.set(i, src.get(i));
             } 
         }
