@@ -18,13 +18,14 @@ abstract class MyStream<T> {
 
 // a
 void forEach(Consumer<? super T> action , int n) {
-    Stream<T> stream = Stream<T>.generate(seed)
+    Stream<T> stream = Stream.generate(seed)
         .limit(n)    
         .forEach(action);
 }
 
 // b  ???
 <R> MyStream<T> map(Function<? extends T, ? extends R> mapper) {
-    return this.get()
+    Stream<T> stream = Stream.generate(seed)
+        .map(mapper)
         .
 }

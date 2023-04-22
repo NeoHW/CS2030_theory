@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 class Pair<T, U> {
     private final T t;
@@ -89,34 +90,45 @@ int evaluate(String expr) {
     return optAns.orElseThrow();
 }
 
-// still have to do it using completableFutures ????
-int evaluate(String expr) {
+// still have to do it using completableFutures
+int AsyncEvaluate(String expr) {
     Scanner sc = new Scanner(expr);
 
     sc = sc.useDelimiter(" ");
-    Stack<Integer> stack = new Stack<Integer>();
+    Stack<CompletableFuture<Integer>> stack = new Stack<CompletableFuture<Integer>>(); // stack of Cf<Int>
 
     while (sc.hasNext()) {
         String term = sc.next();
         // ...
         if (term.equals("+") || term.equals("*")) {
-            Pair<Optional<Integer>, Stack<Integer>> pair1 = stack.pop();
-            Optional<Integer> first = pair1.first();
+            Pair<Optional<CompletableFuture<Integer>>, Stack<CompletableFuture<Integer>>> pair1 = stack.pop();
+            Optional<CompletableFuture<Integer>> first = pair1.first();
             stack = pair1.second();
 
-            Pair<Optional<Integer>, Stack<Integer>> pair2 = stack.pop();
-            Optional<Integer> second = pair2.first();
+            Pair<Optional<CompletableFuture<Integer>>, Stack<CompletableFuture<Integer>>> pair2 = stack.pop();
+            Optional<CompletableFuture<Integer>> second = pair2.first();
             stack = pair2.second();
+
+            // some nonsense that i anyhow write using completablefutures
             if (term.equals("+")) {
-                stack = stack.push(first.flatMap(x -> second.map(y -> x+y)).orElseThrow());
+                stack = stack.push(
+                            first.flatMap(x -> // x is cf<int>
+                                second.map(y -> // y is cf<int>
+                                    CompletableFuture.supplyAsync(() -> x.join() + y.join())))
+                        .orElseThrow());
             } else {
-                stack = stack.push(first.flatMap(x -> second.map(y -> x*y)).orElseThrow());
+                stack = stack.push(
+                            first.flatMap(x -> // x is cf<int>
+                                second.map(y -> // y is cf<int>
+                                    CompletableFuture.supplyAsync(() -> x.join() * y.join())))
+                        .orElseThrow());
             }
         } else {
-            Integer value = Integer.parseInt(term);
-            stack.push(value);
+            int value = Integer.parseInt(term); // int
+            CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> value); // make int into cf<int> using supplyAsync
+            stack.push(future); // push cf<int> into stack<cf<int>>
         }
     }
-    Optional<Integer> optAns = stack.pop().first();
-    return optAns.orElseThrow();
+    Optional<CompletableFuture<Integer>> optAns = stack.pop().first();
+    return optAns.orElseThrow().join();
 }
