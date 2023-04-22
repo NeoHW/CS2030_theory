@@ -15,4 +15,3 @@ BiFunction<String, Integer, String> =
         }
     };
 
-//(c)
