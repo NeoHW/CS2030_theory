@@ -7,16 +7,21 @@ class q3{
 
 // a
 List<Integer> convert(List<Integer> list, Function<Integer,Integer> fn) {
-    return list.stream().map(fn);
+    return list.stream().map(fn).toList();
 }
 
 // b ??
-List<Integer> convert(List<Integer> list, Function<Integer,Integer> fn) {
-    return list.stream().map(fn);
+// convert(arr,f) is like  list.filter.map
+List<Integer> convert(List<Integer> list, IntPredicate f) {
+    return IntStream.range(0, list.size())
+        .filter(f)
+        .map(x -> list.get(x)*2)
+        .boxed()
+        .toList();
 }
 
 // c ??
-Function <T,R> f = x -> 
+IntPredicate f = x -> x % 2 == 0;
 
 // d 
 void conway(List<Integer> list, UnaryOperator<List<Integer>> r, int n) {
