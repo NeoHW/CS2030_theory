@@ -18,11 +18,12 @@ Optional<E> reduce(BinaryOperator<E> accumulator) {
  */
 
 // NOTE: this is about currying
+// using Function that takes in <E> , and output another Function instead of using biFunction
 Optional<E> reduce(Function<? super E, Function<? super E, ? extends E>> acc) {
     return this.size() == 0 ? Optional.<E>empty() : 
         Optional.of(elems.get(0))
-            .map(x -> // E
-                    this.remove(0) // Imlist<E> without first element
+            .map(x -> // E (x used as seed in reduce later)
+                    this.remove(0) // Imlist<E> without first element as you don't want to double count x (first element used as seed)
                     .reduce(x, (a,b) -> acc.apply(a).apply(b)) // E
                 ); // Optional<E>
 }
