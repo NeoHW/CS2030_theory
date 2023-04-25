@@ -6,7 +6,7 @@ IntStream.range(1,100).reduce(0, (x,y) -> x+y)
 this is a simpler one liner
 
 (c)
-parallel streams not tested (but ans is no as smth about race conditions? idk)
+parallel streams not tested (but ans is about race conditions i think)
 
 (d)
 int count(List<String> words) {
