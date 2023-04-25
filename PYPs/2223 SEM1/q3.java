@@ -1,7 +1,7 @@
 class test{
     
 // Answer 3a below. Do not remove this comment.
-// this returns a stream of all levels of a PA
+// this returns a stream of marks for all levels of a PA
 Stream<Integer> getMarks() { 
     return levels.stream()
         .map(x -> x.getMarks());
