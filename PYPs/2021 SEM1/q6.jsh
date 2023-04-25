@@ -18,6 +18,5 @@ int count(List<String> words) {
 (e)
 int count(List<String> words) {
     return words.stream()
-        .reduce("", (x, y) -> x + y)
-        .length();
+        .reduce(0, (total, word) -> total + word.length(), (a,b) -> a + b);
 }
