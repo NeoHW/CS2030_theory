@@ -20,7 +20,9 @@ class CachedString {
 	}
 
 	CachedString flatMap(Function<? super String, CachedString> mapper) {
-		return new CachedString(() -> mapper.apply(this.get()).get());
+		return new CachedString(() -> 
+			mapper.apply(this.get()).get()
+		);
 	}
 
 	public void forEach(Consumer<String> action) {
