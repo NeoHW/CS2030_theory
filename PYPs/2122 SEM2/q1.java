@@ -1,62 +1,72 @@
 import java.util.List;
 
-abstract class Student {
-    protected final double cap;
-    protected final double loan;
-    protected final String id;
+interface Gradable {
+    String getID();
+    double getCAP();
+}
 
-    Student(double cap, double loan, String id) {
-        this.cap = cap;
-        this.loan = loan;
+interface Payee {
+    String getID();
+    double getLoan();
+}
+
+
+abstract class Student implements Gradable, Payee {
+    private final String id;
+
+    Student(String id) {
         this.id = id;
     }
 
-    double getCAP() {
+    public String getID() {
+        return this.id;
+    }
+
+    public double getCAP() {
         return 5.0;
     }
 
-    abstract double getLoan();
-
-    String getID() {
-        return this.id;
-    }
 }
 
 class PG extends Student {
     
-    PG(double cap, double loan, String id) {
-        super(cap,loan,id);
+    PG(String id) {
+        super(id);
     }
-
-    double getLoan() {
+    
+    public double getLoan() {
         return 111.11;
     }
 }
 
 class UG extends Student {
     
-    UG(double cap, double loan, String id) {
-        super(cap,loan,id);
+    UG(String id) {
+        super(id);
     }
 
-    double getLoan() {
+    public double getLoan() {
         return 99.99;
     }
 }
 
 class Admin {
-
-    void process(List<Student> students) {
-        for (Student i : students) {
+    // ? extends Gradable as List actually takes in a List of students!
+    void process(List<? extends Gradable> gradables) {
+        for (Gradable i : gradables) {
             System.out.println(i.getID() + " : " + i.getCAP());            
         }
+
+        // Stream
+        // gradables.stream().forEach(x -> 
+        //    System.out.println(x.getID() + " : " + x.getCAP())
     }
 }
 
 class Busrar {
-
-    void process(List<Student> students) {
-        for (Student i : students) {
+    // ? extends Payee as List actually takes in a List of students!
+    void process(List< ? extends Student> payees) {
+        for (Payee i : payees) {
             System.out.println(i.getID() + " : " + i.getLoan());            
         }
     }
