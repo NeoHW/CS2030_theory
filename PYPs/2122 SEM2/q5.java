@@ -2,7 +2,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-// using chatgpt
 class ImList<T> {
     private final Supplier<List<T>> list;
 
@@ -17,10 +16,16 @@ class ImList<T> {
     ImList<T> add(T t) { // use constructor Imlist(supplier<List<T>>)
         return new ImList<T>(() -> { // this supplier should return a list
             System.out.println("Adding: " + t);
-            List<T> newList = new ArrayList<T>(list.get()); // why can use supplier.get() here?
+            List<T> newList = new ArrayList<T>(list.get()); //list.get() to get the list from the supplier
             newList.add(t);
             return newList;
         });
+        /* eager evaluation given
+        System.out.println("Adding: " + t);
+        ImList<T> newList = new ImList<T>(this.list);
+        newList.list.add(t);
+        return newList;
+        */
     }
 
     ImList<T> set(int index, T t) {
