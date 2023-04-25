@@ -10,7 +10,7 @@ List<Integer> convert(List<Integer> list, Function<Integer,Integer> fn) {
     return list.stream().map(fn).toList();
 }
 
-// b ??
+// b 
 // convert(arr,f) is like  list.filter.map
 List<Integer> convert(List<Integer> list, IntPredicate f) {
     return IntStream.range(0, list.size())
@@ -20,7 +20,7 @@ List<Integer> convert(List<Integer> list, IntPredicate f) {
         .toList();
 }
 
-// c ??
+// c
 IntPredicate f = x -> x % 2 == 0;
 
 // d 
@@ -55,7 +55,8 @@ static UnaryOperator<List<Integer>> r() {
         })
         .boxed()
         .toList();
-} 
+}
+
 // f
 
 
