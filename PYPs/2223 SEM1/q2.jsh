@@ -8,20 +8,12 @@ import java.util.stream.*;
 }
 
 
-
-
-
 // Answer 2b below. Do not remove this comment.
 <T> List<Pair<T,T>> pairing(List<? extends T> list) { 
     return IntStream.range(0, list.size() / 2)
         .mapToObj(x -> new Pair<T,T>(list.get(x * 2), list.get(x * 2 + 1))) // mapToObj as want to convert to general stream
         .toList();
 }
-
-
-
-
-
 
 
 // Answer 2c below. Do not remove this comment.
