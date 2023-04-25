@@ -37,7 +37,7 @@ class IfElse<T,U> {
     }
 
     //d 
-    // use andTHen to compose 2 functions
+    // use andThen to compose 2 functions
     <R> IfElse<T,R> map(Function<? super U,? extends R> mapper) {
         return new IfElse<T,R>(this.pred, left.andThen(mapper), right.andThen(mapper));
     }
