@@ -4,11 +4,6 @@ Supplier<Integer> supplier = () -> urls.stream().map(x -> processUrl(x)).reduce(
 supplier.get() // to get the result 
 
 
-
-
-
-
-
 // Answer 5b below. Do not remove this comment.
 
 CompletableFuture<Integer> cf = urls.stream() // Stream<String>
