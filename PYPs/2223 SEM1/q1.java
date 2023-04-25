@@ -52,6 +52,7 @@ class Bot {
     Bot join(Notifiable user) {
         String s = this.toString() + " says hi to " + user.toString();
         
+        // adding new user into existing list of users
         Bot newBot = new Bot(id, this.users.add(user));
         
         for (Notifiable u : newBot.users) {
