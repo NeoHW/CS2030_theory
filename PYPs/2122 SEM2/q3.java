@@ -11,7 +11,7 @@ abstract class Maybe<T> {
     abstract <R> Maybe<R> map(Function<? super T, ? extends R> mapper);
 
     static <T> Maybe<T> of(T item) {
-        // using annoymous inner class
+        // using annoymous inner class to avoid cyclic dependency
         return new Maybe<T>() {
             private final T thing = item; // property now resides in implementation
 
