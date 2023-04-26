@@ -97,12 +97,6 @@ class AmberLight extends TrafficLight {
     }
 }
 
-//d 
-// jshell:
-// TrafficLight t = new RedLight();
-// t = t.setNextLight(new AmberLight().setNextLight(new GreenLight().setNextLight(t)));
-// toggling(t, 7);
-
 public static void main(String[] args) {
     // the correct ans is these few lines of code
     TrafficLight light = new RedLight(new ImList<TrafficLight>(List.of(new GreenLight(), new AmberLight())));
@@ -111,7 +105,7 @@ public static void main(String[] args) {
         light = light.toggle();
     }
     // ans ends 
-    
+
     System.out.println();
     // to show how u can change the order
     TrafficLight light2 = new RedLight(new ImList<TrafficLight>(List.of(
