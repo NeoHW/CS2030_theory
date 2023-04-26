@@ -1,67 +1,75 @@
-// part c and d are wrong (nextLight attribute and setNextLight wrong)
+import java.util.List;
 
 abstract class TrafficLight {
-    private final String color;
-    protected final TrafficLight nextLight;
+    private final String light;
+    private final TrafficLight nextLight;
 
-    TrafficLight(String color) {
-        this.color = color;
-        this.nextLight = null;
+    TrafficLight(String light) {
+        this(light, new ImList<>());
     }
 
-    TrafficLight(String color, TrafficLight nextLight) {
-        this.color = color;
-        this.nextLight = nextLight;
+    TrafficLight(String light, TrafficLight nexLight) {
+        this.light = light;
+        this.nextLight = nexLight;
     }
 
-    abstract TrafficLight toggle();
+    TrafficLight(String light, ImList<TrafficLight> lights) {
+        this.light = light;
+        TrafficLight lastLight = this;
+        for (int i = lights.size() - 1; i >= 0; i--) {
+            lastLight = lights.get(i).setNext(lastLight);
+        }
+        this.nextLight = lastLight;
+    }
 
-    abstract TrafficLight setNextLight(TrafficLight next);
+    abstract TrafficLight setNext(TrafficLight nextLight);
+
+    TrafficLight toggle() {
+        return nextLight;
+    }
 
     @Override
     public String toString() {
-        return this.color;
+        return light;
     }
 }
 
+
 // subclasses redlight means trafficLight is the parent!
 class RedLight extends TrafficLight {
-    
     RedLight() {
-        super("red");
+        super("Red");
     }
 
-    RedLight(TrafficLight next) {
-        super("red", next);
-    }
-    
-    TrafficLight setNextLight(TrafficLight next) {
-        return new RedLight(next);
+    RedLight(ImList<TrafficLight> lights) {
+        super("Red", lights);
     }
 
-    @Override
-    TrafficLight toggle() {
-        return nextLight;
+    RedLight(TrafficLight nextLight) {
+        super("Red", nextLight);
+    }
+
+    RedLight setNext(TrafficLight nextLight) {
+        return new RedLight(nextLight);
     }
 }
 
 class GreenLight extends TrafficLight {
     
     GreenLight() {
-        super("green");
+        super("Green");
     }
 
-    GreenLight(TrafficLight next) {
-        super("green", next);
+    GreenLight(ImList<TrafficLight> lights) {
+        super("Green", lights);
     }
 
-    TrafficLight setNextLight(TrafficLight next) {
-        return new GreenLight(next);
+    GreenLight(TrafficLight nextLight) {
+        super("Green", nextLight);
     }
 
-    @Override
-    TrafficLight toggle() {
-        return nextLight;
+    GreenLight setNext(TrafficLight nextLight) {
+        return new GreenLight(nextLight);
     }
 }
 
@@ -73,20 +81,19 @@ class GreenLight extends TrafficLight {
 class AmberLight extends TrafficLight {
     
     AmberLight() {
-        super("amber");
+        super("Amber");
     }
 
-    AmberLight(TrafficLight next) {
-        super("amber", next);
+    AmberLight(ImList<TrafficLight> lights) {
+        super("Amber", lights);
     }
 
-    TrafficLight setNextLight(TrafficLight next) {
-        return new AmberLight(next);
+    AmberLight(TrafficLight nextLight) {
+        super("Amber", nextLight);
     }
-    
-    @Override
-    TrafficLight toggle() {
-        return nextLight;
+
+    AmberLight setNext(TrafficLight nextLight) {
+        return new AmberLight(nextLight);
     }
 }
 
@@ -95,3 +102,24 @@ class AmberLight extends TrafficLight {
 // TrafficLight t = new RedLight();
 // t = t.setNextLight(new AmberLight().setNextLight(new GreenLight().setNextLight(t)));
 // toggling(t, 7);
+
+public static void main(String[] args) {
+    // the correct ans is these few lines of code
+    TrafficLight light = new RedLight(new ImList<TrafficLight>(List.of(new GreenLight(), new AmberLight())));
+    for (int i = 0; i < 10; i++) {
+        System.out.println(light);
+        light = light.toggle();
+    }
+    // ans ends 
+    
+    System.out.println();
+    // to show how u can change the order
+    TrafficLight light2 = new RedLight(new ImList<TrafficLight>(List.of(
+            new AmberLight(), new GreenLight(),
+            new AmberLight(), new RedLight(),
+            new AmberLight(), new GreenLight())));
+    for (int i = 0; i < 10; i++) {
+        System.out.println(light2);
+        light2 = light2.toggle();
+    }
+}
