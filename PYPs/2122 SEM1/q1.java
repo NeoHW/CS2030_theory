@@ -25,21 +25,20 @@ class ImList<T> {
      */
 
     ImList<T> add(T elem) {
-        return this.update(elem, Optional.empty());
-    }
-    
-    ImList<T> set(int index, T elem) {
-        return this.update(elem, Optional.of(index));
+        return update(list.size(), elem);
     }
 
-    // this should be wrong as it dosent take into account remove method
-    ImList<T> update(T elem, Optional<Integer> index) {
-        ImList<T> newList = new ImList<T>(this.list);
-        if (index.isPresent()) {
-            newList.list.set(index.get(), elem)
+    ImList<T> set(int index, T elem) {
+        return update(index, elem);
+    }
+
+    ImList<T> update(int index, T elem) {
+        List<T> newList = new ArrayList<>(list);
+        if (index >= newList.size()) {
+            newList.add(elem);
         } else {
-            newList.list.add(elem);   
+            newList.set(index, elem);
         }
-        return newList;
+        return new ImList<>(newList);
     }
 }
