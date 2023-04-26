@@ -43,7 +43,7 @@ class Stack<T> {
     Pair<Optional<T>, Stack<T>> pop() {
         Stack<T> newStack = new Stack<T>(this.list);
         Optional<T> t = newStack.isEmpty() ? Optional.empty()
-                : Optional.of(newStack.list.remove(newStack.list.size() - 1));
+                : Optional.of(newStack.list.remove(0));
         return new Pair<Optional<T>, Stack<T>>(t, newStack);
     }
 
@@ -54,7 +54,6 @@ class Stack<T> {
     public String toString() {
         return "Top -> " + this.list;
     }
-
 }
 
 // b
@@ -83,7 +82,7 @@ int evaluate(String expr) {
             }
         } else {
             Integer value = Integer.parseInt(term);
-            stack.push(value);
+            stack = stack.push(value);
         }
     }
     Optional<Integer> optAns = stack.pop().first();
@@ -126,7 +125,7 @@ int AsyncEvaluate(String expr) {
         } else {
             int value = Integer.parseInt(term); // int
             CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> value); // make int into cf<int> using supplyAsync
-            stack.push(future); // push cf<int> into stack<cf<int>>
+            stack = stack.push(future); // push cf<int> into stack<cf<int>>
         }
     }
     Optional<CompletableFuture<Integer>> optAns = stack.pop().first();
